@@ -1,42 +1,21 @@
-package hiber.model;
+package spring.model;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "cars")
 public class Car {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "model")
     private String model;
 
-    @Column(name = "series")
     private int series;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "car")
-    private User user;
+    private int price;
 
 
     public Car() {
     }
 
-    public Car(String model, int series) {
+    public Car(String model, int series, int price) {
+        this.price = price;
         this.model = model;
         this.series = series;
-
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 
     public String getModel() {
         return model;
@@ -54,12 +33,13 @@ public class Car {
         this.series = series;
     }
 
-    public User getUser() {
-        return user;
+
+    public int getPrice() {
+        return price;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     @Override
