@@ -20,7 +20,7 @@ public class CarContoller {
 
     @RequestMapping(value = "/cars")
     public List<Car> viewCars(@RequestParam(value = "count", required = false)
-                              Optional<Integer> count, Model model
+                              Optional<Integer> count
             , @RequestParam(value = "sortBy", required = false) String sortBy) {
         return carService.getCars(count.orElse(carService.getFullCar()), sortBy);
     }
