@@ -1,15 +1,11 @@
 package spring;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import org.springframework.context.annotation.Bean;
 import spring.config.ConfigSort;
 import spring.model.Car;
-import spring.service.CarService;
 import spring.service.CarServiceImp;
 
 @EnableConfigurationProperties(ConfigSort.class)
@@ -19,6 +15,7 @@ public class SpringBootApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootApplication.class, args);
     }
+
     @Bean
     public CommandLineRunner demo(CarServiceImp repository) {
         return (args) -> {

@@ -33,9 +33,13 @@ public class CarServiceImp implements CarService {
         if (count > maxCar) {
             count = getFullCar();
         }
-
         if (configSort.getField().contains(sortBy)) {
             return carRepository.findAll(Sort.by(sortBy)).stream().limit(count)
+                    .collect(Collectors.toList());
+
+        }
+        if (sortBy == null) {
+            return carRepository.findAll().stream().limit(count)
                     .collect(Collectors.toList());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
