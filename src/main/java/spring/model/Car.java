@@ -1,11 +1,21 @@
 package spring.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Car {
-    private String model;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private int series;
+    @Column(name = "model")
+    public String model;
 
-    private int price;
+    @Column(name = "series")
+    public int series;
+
+    @Column(name = "price")
+    protected int price;
 
 
     public Car() {

@@ -25,7 +25,7 @@
         <tbody>
         <tr th:each="car:${count}">
 
-            <td th:text=""></td>
+            <td th:text="${car.getModel()}"></td>
             <td th:text="${car.getSeries()}"></td>
             <td th:text="${car.getPrice()}"></td>
 

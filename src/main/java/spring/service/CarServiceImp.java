@@ -1,53 +1,55 @@
 package spring.service;
 
 
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import spring.comparator.ComparatorCar;
+import org.springframework.web.server.ResponseStatusException;
+import spring.config.ConfigSort;
+import spring.dao.CarRepository;
 import spring.model.Car;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class CarServiceImp implements CarService {
+    @Autowired
+    private CarRepository carRepository;
 
-    final ComparatorCar comparator;
-    private final int maxCar;
-    private final List<Car> cars = new ArrayList<>();
+    @Autowired
+    private ConfigSort configSort;
 
-    public CarServiceImp(Environment environment, ComparatorCar comparator) {
-        this.maxCar = Integer.parseInt(Objects.requireNonNull(environment.getProperty("maxCar")));
-        cars.add(new Car("Жигуль", 2107, 777));
-        cars.add(new Car("Девятка", 2109, 999));
-        cars.add(new Car("Нива", 2131, 1001));
-        cars.add(new Car("Калина", 1117, 1002));
-        cars.add(new Car("Приора", 2170, 1003));
-        cars.add(new Car("Гранта", 2170, 1004));
-        cars.add(new Car("Надежда", 2120, 1005));
-        cars.add(new Car("Пятярка", 2105, 1006));
-        cars.add(new Car("Копейка", 2101, 9999));
-        cars.add(new Car("Шестёрка", 2106, 1007));
-        this.comparator = comparator;
+    @Value("${maxCar}")
+    private int maxCar;
+
+    public CarServiceImp() {
     }
 
-
     @Override
-    public List<Car> getCars(int count) {
+    public List<Car> getCars(int count, String sortBy) {
         if (count > maxCar) {
-            count = cars.size();
+            count = getFullCar();
         }
-        return cars.stream().limit(count).sorted(comparator.getComparator()).collect(Collectors.toList());
+
+        if (configSort.getField().contains(sortBy)) {
+            return carRepository.findAll(Sort.by(sortBy)).stream().limit(count)
+                    .collect(Collectors.toList());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Sorting by " + sortBy + " field is disabled");
+        }
     }
 
     @Override
     public void addCar(Car car) {
-        cars.add(car);
+        carRepository.save(car);
     }
 
+
     public int getFullCar() {
-        return cars.size();
+        return carRepository.findAll().size();
     }
 }
