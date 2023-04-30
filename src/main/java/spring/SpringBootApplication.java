@@ -2,13 +2,11 @@ package spring;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import spring.config.ConfigSort;
-import spring.model.Car;
-import spring.service.CarServiceImp;
+import spring.model.User;
+import spring.service.UserServiceImp;
 
-@EnableConfigurationProperties(ConfigSort.class)
+
 @org.springframework.boot.autoconfigure.SpringBootApplication
 public class SpringBootApplication {
 
@@ -17,18 +15,14 @@ public class SpringBootApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(CarServiceImp repository) {
+    public CommandLineRunner demo(UserServiceImp repository) {
         return (args) -> {
-            repository.addCar(new Car("Жигуль", 2107, 777));
-            repository.addCar(new Car("Девятка", 2109, 999));
-            repository.addCar(new Car("Нива", 2131, 1001));
-            repository.addCar(new Car("Калина", 1117, 1002));
-            repository.addCar(new Car("Приора", 2170, 1003));
-            repository.addCar(new Car("Гранта", 2170, 1004));
-            repository.addCar(new Car("Надежда", 2120, 1005));
-            repository.addCar(new Car("Пятярка", 2105, 1006));
-            repository.addCar(new Car("Копейка", 2101, 9999));
-            repository.addCar(new Car("Шестёрка", 2106, 1007));
+            repository.saveUser(new User("Techno Smarter", 20, "info@technomaster.com"));
+            repository.saveUser(new User("Rohan", 67, "rohan@example.com"));
+            repository.saveUser(new User("Geeta", 19, "geeta@example.com"));
+            repository.saveUser(new User("Ram", 34, "ram@gmail.com"));
+            repository.saveUser(new User("Mohan", 34, "mohan@gmail.com"));
+
         };
     }
 }
